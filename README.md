@@ -38,6 +38,10 @@ portfolio-dev/
 ├── projects/
 │   ├── _template/              # Starter for a new mini project (not built)
 │   └── README.md               # How to add a mini project
+├── docker/
+│   ├── Dockerfile              # Multi-stage build for any workspace → nginx
+│   └── nginx/                  # shell.conf (gateway + SPA), remote.conf (static)
+├── docker-compose.yml          # Whole system: shell + one container per mini project
 ├── package.json                # Root scripts
 ├── pnpm-workspace.yaml         # Workspaces: apps/*, projects/*, packages/*
 └── tsconfig.base.json          # Shared compiler options
@@ -85,9 +89,10 @@ The single source of truth for what the portfolio shows. Each entry is a
 ```
 
 `remoteEntry(id, port)` resolves to `http://localhost:<port>/remoteEntry.js` in
-development, or to the value of `VITE_REMOTE_<ID>` (for example
-`VITE_REMOTE_TASK_BOARD`) when set, so production can point at a CDN without
-code changes. Projects without a `remote` show an "Under construction" placeholder.
+development and to the same-origin path `/remotes/<id>/remoteEntry.js` in production
+builds (served through the shell's nginx, see [Deployment](#deployment)). Setting
+`VITE_REMOTE_<ID>` (for example `VITE_REMOTE_TASK_BOARD`) at build time overrides
+both, for instance to load a remote from a CDN. Projects without a `remote` show an "Under construction" placeholder.
 
 ### Runtime remote loading — `src/mfe/`
 
@@ -158,11 +163,43 @@ cp -r projects/_template projects/task-board
 2. In `projects/task-board/vite.config.ts`, set `NAME` to `task_board` and pick a unique `PORT`.
 3. In `apps/shell/src/projects/registry.ts`, add a `remote` block to the entry and set its `status`.
 4. Run `pnpm install`, then `pnpm dev:all`.
+5. To deploy it, add an `mfe-task-board` service to `docker-compose.yml` (a commented example is in the file).
 
 Full details are in [`projects/README.md`](projects/README.md).
 
 ## Deployment
 
-Each mini project deploys independently as static files (its `dist/` contains
-`remoteEntry.js`). Deploy the shell with `VITE_REMOTE_<ID>` variables pointing at each
-remote's public `remoteEntry.js`. Updating a mini project then needs no shell rebuild.
+The whole system runs with Docker Compose:
+
+```bash
+docker compose up -d --build      # → http://localhost:8080 (set PORT to change)
+docker compose down
+```
+
+```
+                    ┌──────────────── docker network ────────────────┐
+browser ── :8080 ──▶│ shell (nginx)                                  │
+                    │  /              → shell build (SPA fallback)   │
+                    │  /remotes/<id>/ → proxy ──▶ mfe-<id> (nginx)   │
+                    └────────────────────────────────────────────────┘
+```
+
+- **`shell`** is the only public container. nginx serves the shell's build, falls back
+  to `index.html` for deep links, and forwards `/remotes/<id>/…` to the container named
+  `mfe-<id>`. It uses Docker's DNS at request time, so remotes can be added or
+  restarted without touching the shell, and a stopped remote just shows the shell's
+  "failed to load" card with a Retry button.
+- **`mfe-<id>`** containers each serve one mini project's static build. Mini projects
+  are built with `base: /remotes/<id>/`, so everything loads from one origin and no CORS
+  setup is needed.
+- **`docker/Dockerfile`** is shared by all services: the `APP` build arg picks the
+  workspace to build and `NGINX_CONF` picks the server config. Dependencies are fetched
+  from the lockfile in a separate layer, so source edits don't re-download packages.
+- Hashed files under `/assets/` are cached for a year. `index.html` and
+  `remoteEntry.js` are always revalidated, so a redeploy shows up immediately.
+
+To redeploy a single mini project without touching the shell:
+
+```bash
+docker compose up -d --build mfe-task-board
+```

@@ -1,0 +1,8 @@
+**/node_modules
+**/dist
+**/@mf-types
+**/.__mf__temp
+.git
+*.local
+.env*.local
+docker-compose*.yml

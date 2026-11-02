@@ -1,0 +1,32 @@
+# Whole system: the shell (public gateway) plus one container per mini project.
+#   docker compose up -d --build   ->  http://localhost:8080
+
+x-remote: &remote
+  build: &remote-build
+    context: .
+    dockerfile: docker/Dockerfile
+    args:
+      NGINX_CONF: remote.conf
+  restart: unless-stopped
+
+services:
+  shell:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        APP: apps/shell
+        NGINX_CONF: shell.conf
+    ports:
+      - "${PORT:-8080}:80"
+    restart: unless-stopped
+
+  # One service per mini project. The service MUST be named mfe-<id>, where <id>
+  # is the project folder and its id in apps/shell/src/projects/registry.ts.
+  # Remotes are not published on the host; the shell proxies /remotes/<id>/.
+  #
+  # mfe-task-board:
+  #   <<: *remote
+  #   build:
+  #     <<: *remote-build
+  #     args: { APP: projects/task-board, NGINX_CONF: remote.conf }

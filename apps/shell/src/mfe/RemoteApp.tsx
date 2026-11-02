@@ -2,7 +2,7 @@ import type { ProjectManifest } from "@portfolio/mfe-contract";
 import { Suspense, use, useState } from "react";
 import { useTheme } from "../lib/theme";
 import { ErrorBoundary } from "./ErrorBoundary";
-import { loadMicroFrontend } from "./loadRemote";
+import { forgetMicroFrontend, loadMicroFrontend } from "./loadRemote";
 
 interface Props {
   remote: NonNullable<ProjectManifest["remote"]>;
@@ -15,7 +15,15 @@ export function RemoteApp({ remote, basePath }: Props) {
   return (
     <ErrorBoundary
       key={attempt}
-      fallback={(error) => <RemoteError error={error} onRetry={() => setAttempt((n) => n + 1)} />}
+      fallback={(error) => (
+        <RemoteError
+          error={error}
+          onRetry={() => {
+            forgetMicroFrontend(remote);
+            setAttempt((n) => n + 1);
+          }}
+        />
+      )}
     >
       <Suspense fallback={<RemoteSkeleton />}>
         <RemoteMount remote={remote} basePath={basePath} />

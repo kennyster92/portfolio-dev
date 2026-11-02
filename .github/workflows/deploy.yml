@@ -1,0 +1,97 @@
+# CI/CD: verify the code, then tell Portainer to redeploy the website.
+#
+# How the pieces fit together:
+#   1. You merge a PR into main  ->  GitHub records a "push" to main.
+#   2. That push starts this workflow on a GitHub-hosted runner (a throwaway VM).
+#   3. The "verify" job checks the code compiles and the Docker images build.
+#   4. Only if verify passed, the "deploy" job calls a Portainer webhook URL.
+#   5. Portainer pulls main from GitHub, rebuilds the images, restarts the stack.
+#
+# Nothing here connects to your server over SSH and no images are pushed to a
+# registry. The server builds from git itself; CI only says "go" when the code is good.
+
+# Shown in the GitHub "Actions" tab.
+name: Deploy
+
+on:
+  # Merging a PR is a push to the target branch, so this catches every merge
+  # (and direct pushes too, which you can block with branch protection).
+  # Your default branch is "main"; change this if you rename it to "master".
+  push:
+    branches: [main]
+  # Adds a "Run workflow" button in the Actions tab, to redeploy by hand
+  # without needing a new commit.
+  workflow_dispatch:
+
+# Two merges in quick succession should not deploy at the same time.
+# Runs in the same group wait in line; cancel-in-progress: false means a deploy
+# that already started is allowed to finish instead of being killed halfway.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+# The GITHUB_TOKEN this workflow gets may only read the repo. Least privilege:
+# if a step (or a third-party action) were compromised, it can't push code.
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    # Ubuntu runners are the default, cheapest, and have Docker preinstalled.
+    runs-on: ubuntu-latest
+    # A stuck build fails after 20 minutes instead of using up the 6-hour default.
+    timeout-minutes: 20
+    steps:
+      # The runner starts empty; this clones the commit that triggered the run.
+      - uses: actions/checkout@v5
+
+      # Installs pnpm. Same version as the Dockerfile so the lockfile is read
+      # the same way in CI and on the server.
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.4.2
+
+      # Installs Node (same major as the Dockerfile's node:24-alpine). The cache
+      # option saves pnpm's download store between runs, keyed on pnpm-lock.yaml,
+      # so installs are fast until the dependencies change.
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+
+      # --frozen-lockfile fails if package.json and pnpm-lock.yaml disagree,
+      # instead of quietly resolving different versions than you tested locally.
+      - run: pnpm install --frozen-lockfile
+
+      # Type errors fail here in seconds, with readable output, before the
+      # slower Docker build starts.
+      - run: pnpm typecheck
+
+      # Builds every image in docker-compose.yml exactly as Portainer will, which
+      # also runs each Vite build inside the image. If this fails, the deploy job
+      # never runs and the live site keeps serving the last good version.
+      - run: docker compose build
+
+  deploy:
+    # needs: verify  ->  runs only after verify succeeded. This is the gate.
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # Links the job to a GitHub "environment" (Settings -> Environments). The
+    # secret below is stored there, so only jobs that name this environment can
+    # read it. The Actions tab also keeps a history of deployments to it.
+    environment: production
+    steps:
+      # The URL contains its own token: anyone who has it can trigger a redeploy,
+      # so it's stored as a secret, never written in this file. GitHub hides it
+      # in the logs. Passing it through env (not ${{ }} inside the script) keeps
+      # the value out of the generated shell script.
+      # curl flags:
+      #   -f            treat HTTP 4xx/5xx as a failure (curl's default is success)
+      #   -sS           no progress bar, but still print errors
+      #   --retry 3     try again on network errors (server briefly unreachable)
+      #   -X POST       Portainer webhooks expect POST
+      - name: Trigger Portainer redeploy
+        env:
+          PORTAINER_WEBHOOK_URL: ${{ secrets.PORTAINER_WEBHOOK_URL }}
+        run: curl -fsS --retry 3 -X POST "$PORTAINER_WEBHOOK_URL"

@@ -1,10 +1,17 @@
 import type { ProjectManifest } from "@portfolio/mfe-contract";
 
-/** Remote entry URL, overridable per environment via VITE_REMOTE_<ID>. */
+/**
+ * Remote entry URL. Dev: the remote's own dev server. Production: same-origin
+ * `/remotes/<id>/`, proxied by the shell's nginx (see docker/). Override either
+ * per environment via VITE_REMOTE_<ID>.
+ */
 export function remoteEntry(id: string, devPort: number) {
   const key = `VITE_REMOTE_${id.toUpperCase().replace(/-/g, "_")}`;
   const fromEnv = (import.meta.env as Record<string, string | undefined>)[key];
-  return fromEnv ?? `http://localhost:${devPort}/remoteEntry.js`;
+  const fallback = import.meta.env.DEV
+    ? `http://localhost:${devPort}/remoteEntry.js`
+    : `/remotes/${id}/remoteEntry.js`;
+  return new URL(fromEnv ?? fallback, window.location.origin).href;
 }
 
 /**
