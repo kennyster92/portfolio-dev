@@ -42,6 +42,18 @@
   body {
     @apply min-h-dvh font-sans;
   }
+  /* Print the CV in the light palette regardless of the active theme. */
+  @media print {
+    html.dark {
+      color-scheme: light;
+      --color-bg: oklch(1 0 0);
+      --color-fg: oklch(0.21 0.02 270);
+      --color-muted: oklch(0.45 0.02 270);
+      --color-surface: oklch(1 0 0);
+      --color-border: oklch(0.91 0.008 270);
+      --color-accent: oklch(0.58 0.2 277);
+    }
+  }
   ::selection {
     @apply bg-accent/25;
   }

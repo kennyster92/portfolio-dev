@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Link } from "react-router";
 import { ProjectCard } from "../components/ProjectCard";
 import { profile } from "../config/profile";
 import { projects } from "../projects/registry";
@@ -47,6 +48,12 @@ function Hero() {
         >
           Explore projects
         </a>
+        <Link
+          to="/cv"
+          className="rounded-xl border border-border bg-surface px-5 py-3 text-sm font-medium transition hover:bg-surface-2"
+        >
+          View CV
+        </Link>
         <a
           href={profile.links.github}
           target="_blank"

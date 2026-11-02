@@ -6,6 +6,7 @@ import { ThemeToggle } from "./ThemeToggle";
 const nav = [
   { href: "/#projects", label: "Projects" },
   { href: "/#skills", label: "Skills" },
+  { href: "/cv", label: "CV" },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -23,7 +24,7 @@ export function Layout() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-40 border-b border-border/70 bg-bg/75 backdrop-blur-lg">
+      <header className="print:hidden sticky top-0 z-40 border-b border-border/70 bg-bg/75 backdrop-blur-lg">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <Link to="/" className="flex items-center gap-2 font-semibold tracking-tight">
             <span className="grid size-8 place-items-center rounded-lg bg-gradient-to-br from-accent to-accent-2 font-mono text-sm text-white">
@@ -48,11 +49,11 @@ export function Layout() {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6 print:p-0">
         <Outlet />
       </main>
 
-      <footer className="border-t border-border/70">
+      <footer className="print:hidden border-t border-border/70">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-6 text-sm text-muted sm:flex-row sm:px-6">
           <p>
             © {new Date().getFullYear()} {profile.name}
