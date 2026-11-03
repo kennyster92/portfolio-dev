@@ -16,7 +16,7 @@ cp -r projects/_template projects/task-board
    and set `status` to `"wip"` or `"live"`.
 4. `pnpm install`, then `pnpm dev:all` from the repo root.
 5. Deploy: add a service named `mfe-<folder name>` to `docker-compose.yml`
-   (copy the commented `mfe-task-board` example). Production builds are served by
+   (copy an existing `mfe-*` service). Production builds are served by
    the shell at `/remotes/<folder name>/`, so the folder name, registry `id` and
    service suffix must match.
 

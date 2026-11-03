@@ -1,0 +1,15 @@
+/*
+ * Loaded with the exposed App. Utilities only: no preflight and no :root theme,
+ * so the shell's design tokens, fonts and dark mode stay in charge when mounted.
+ */
+@import "tailwindcss/theme" theme(reference);
+@import "tailwindcss/utilities" layer(utilities);
+
+/* Mirrors the shell's token names so these utilities resolve to its variables. */
+@theme reference {
+  --color-fg: oklch(0.21 0.02 270);
+  --color-muted: oklch(0.52 0.02 270);
+  --color-surface: oklch(1 0 0);
+  --color-border: oklch(0.91 0.008 270);
+  --color-accent: oklch(0.58 0.2 277);
+}

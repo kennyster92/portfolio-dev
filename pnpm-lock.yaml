@@ -28,10 +28,10 @@ importers:
     devDependencies:
       '@module-federation/vite':
         specifier: ^1.23.7
-        version: 1.23.7(typescript@7.0.2)(vite@8.3.5(jiti@2.7.0))
+        version: 1.23.7(typescript@7.0.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
       '@tailwindcss/vite':
         specifier: ^4.3.3
-        version: 4.3.3(vite@8.3.5(jiti@2.7.0))
+        version: 4.3.3(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
       '@types/react':
         specifier: ^19.3.0
         version: 19.3.0
@@ -40,7 +40,7 @@ importers:
         version: 19.3.0(@types/react@19.3.0)
       '@vitejs/plugin-react':
         specifier: ^6.1.2
-        version: 6.1.2(vite@8.3.5(jiti@2.7.0))
+        version: 6.1.2(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
@@ -49,7 +49,7 @@ importers:
         version: 7.0.2
       vite:
         specifier: ^8.3.5
-        version: 8.3.5(jiti@2.7.0)
+        version: 8.3.5(@types/node@24.19.2)(jiti@2.7.0)
 
   packages/mfe-contract:
     dependencies:
@@ -60,6 +60,246 @@ importers:
       '@types/react':
         specifier: ^19.3.0
         version: 19.3.0
+
+  projects/admin-auth:
+    dependencies:
+      '@portfolio/mfe-contract':
+        specifier: workspace:*
+        version: link:../../packages/mfe-contract
+      react:
+        specifier: ^19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: ^19.3.1
+        version: 19.3.1(react@19.3.1)
+    devDependencies:
+      '@module-federation/vite':
+        specifier: ^1.23.7
+        version: 1.23.7(typescript@7.0.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@tailwindcss/vite':
+        specifier: ^4.3.3
+        version: 4.3.3(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@types/node':
+        specifier: ^24.19.2
+        version: 24.19.2
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      '@vitejs/plugin-react':
+        specifier: ^6.1.2
+        version: 6.1.2(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      vite:
+        specifier: ^8.3.5
+        version: 8.3.5(@types/node@24.19.2)(jiti@2.7.0)
+
+  projects/api-explorer:
+    dependencies:
+      '@portfolio/mfe-contract':
+        specifier: workspace:*
+        version: link:../../packages/mfe-contract
+      react:
+        specifier: ^19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: ^19.3.1
+        version: 19.3.1(react@19.3.1)
+    devDependencies:
+      '@module-federation/vite':
+        specifier: ^1.23.7
+        version: 1.23.7(typescript@7.0.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@tailwindcss/vite':
+        specifier: ^4.3.3
+        version: 4.3.3(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@types/node':
+        specifier: ^24.19.2
+        version: 24.19.2
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      '@vitejs/plugin-react':
+        specifier: ^6.1.2
+        version: 6.1.2(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      vite:
+        specifier: ^8.3.5
+        version: 8.3.5(@types/node@24.19.2)(jiti@2.7.0)
+
+  projects/component-library:
+    dependencies:
+      '@portfolio/mfe-contract':
+        specifier: workspace:*
+        version: link:../../packages/mfe-contract
+      react:
+        specifier: ^19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: ^19.3.1
+        version: 19.3.1(react@19.3.1)
+    devDependencies:
+      '@module-federation/vite':
+        specifier: ^1.23.7
+        version: 1.23.7(typescript@7.0.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@tailwindcss/vite':
+        specifier: ^4.3.3
+        version: 4.3.3(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@types/node':
+        specifier: ^24.19.2
+        version: 24.19.2
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      '@vitejs/plugin-react':
+        specifier: ^6.1.2
+        version: 6.1.2(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      vite:
+        specifier: ^8.3.5
+        version: 8.3.5(@types/node@24.19.2)(jiti@2.7.0)
+
+  projects/scatter-plot:
+    dependencies:
+      '@portfolio/mfe-contract':
+        specifier: workspace:*
+        version: link:../../packages/mfe-contract
+      react:
+        specifier: ^19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: ^19.3.1
+        version: 19.3.1(react@19.3.1)
+    devDependencies:
+      '@module-federation/vite':
+        specifier: ^1.23.7
+        version: 1.23.7(typescript@7.0.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@tailwindcss/vite':
+        specifier: ^4.3.3
+        version: 4.3.3(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@types/node':
+        specifier: ^24.19.2
+        version: 24.19.2
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      '@vitejs/plugin-react':
+        specifier: ^6.1.2
+        version: 6.1.2(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      vite:
+        specifier: ^8.3.5
+        version: 8.3.5(@types/node@24.19.2)(jiti@2.7.0)
+
+  projects/search-catalogue:
+    dependencies:
+      '@portfolio/mfe-contract':
+        specifier: workspace:*
+        version: link:../../packages/mfe-contract
+      react:
+        specifier: ^19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: ^19.3.1
+        version: 19.3.1(react@19.3.1)
+    devDependencies:
+      '@module-federation/vite':
+        specifier: ^1.23.7
+        version: 1.23.7(typescript@7.0.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@tailwindcss/vite':
+        specifier: ^4.3.3
+        version: 4.3.3(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@types/node':
+        specifier: ^24.19.2
+        version: 24.19.2
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      '@vitejs/plugin-react':
+        specifier: ^6.1.2
+        version: 6.1.2(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      vite:
+        specifier: ^8.3.5
+        version: 8.3.5(@types/node@24.19.2)(jiti@2.7.0)
+
+  projects/task-board:
+    dependencies:
+      '@portfolio/mfe-contract':
+        specifier: workspace:*
+        version: link:../../packages/mfe-contract
+      react:
+        specifier: ^19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: ^19.3.1
+        version: 19.3.1(react@19.3.1)
+    devDependencies:
+      '@module-federation/vite':
+        specifier: ^1.23.7
+        version: 1.23.7(typescript@7.0.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@tailwindcss/vite':
+        specifier: ^4.3.3
+        version: 4.3.3(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      '@types/node':
+        specifier: ^24.19.2
+        version: 24.19.2
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      '@vitejs/plugin-react':
+        specifier: ^6.1.2
+        version: 6.1.2(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      vite:
+        specifier: ^8.3.5
+        version: 8.3.5(@types/node@24.19.2)(jiti@2.7.0)
 
 packages:
 
@@ -310,6 +550,9 @@ packages:
     resolution: {integrity: sha512-yYU8cogLeSh/ms2jh8Fj7jaba/EWa7Ja6GoUqYZaraEuCI5YS6ms6ObZgjjedm+jm6XZjdNRWBpPP6Z86oOxcw==}
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7 || ^8
+
+  '@types/node@24.19.2':
+    resolution: {integrity: sha512-93d49wCWJkCyN87MxLpNN6KXPCwFw7bVUg79mGUV1OS40JGWwVCr8n61DXCSqz7CV6/VfPkb7xec7uP2M+QHWQ==}
 
   '@types/react-dom@19.3.0':
     resolution: {integrity: sha512-ZI7bU42mZXXKHn/qNLEw2IrbiINU7X5+vfgdixBHkCNpYWXjKgfQ/P+uyGb5CjOLB9UcnTeg3rylQtV2hym44Q==}
@@ -719,6 +962,9 @@ packages:
     engines: {node: '>=16.20.0'}
     hasBin: true
 
+  undici-types@7.24.6:
+    resolution: {integrity: sha512-WRNW+sJgj5OBN4/0JpHFqtqzhpbnV0GuB+OozA9gCL7a993SmU+1JBZCzLNxYsbMfIeDL+lTsphD5jN5N+n0zg==}
+
   undici@7.29.1:
     resolution: {integrity: sha512-RYONW2MeafgYlkVOKYKkA/Ag7BmXqgIWCa8t1m0JcxrQg9pI9lEqRhAOruOBCbAohOa/gkCF+iPi9hrgvTzu6Q==}
     engines: {node: '>=20.18.1'}
@@ -835,12 +1081,12 @@ snapshots:
 
   '@module-federation/third-party-dts-extractor@2.9.2': {}
 
-  '@module-federation/vite@1.23.7(typescript@7.0.2)(vite@8.3.5(jiti@2.7.0))':
+  '@module-federation/vite@1.23.7(typescript@7.0.2)(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))':
     dependencies:
       '@module-federation/dts-plugin': 2.9.2(typescript@7.0.2)
       '@module-federation/runtime': 2.9.2
       '@module-federation/sdk': 2.9.2
-      vite: 8.3.5(jiti@2.7.0)
+      vite: 8.3.5(@types/node@24.19.2)(jiti@2.7.0)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -959,12 +1205,16 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.3.3
       '@tailwindcss/oxide-win32-x64-msvc': 4.3.3
 
-  '@tailwindcss/vite@4.3.3(vite@8.3.5(jiti@2.7.0))':
+  '@tailwindcss/vite@4.3.3(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))':
     dependencies:
       '@tailwindcss/node': 4.3.3
       '@tailwindcss/oxide': 4.3.3
       tailwindcss: 4.3.3
-      vite: 8.3.5(jiti@2.7.0)
+      vite: 8.3.5(@types/node@24.19.2)(jiti@2.7.0)
+
+  '@types/node@24.19.2':
+    dependencies:
+      undici-types: 7.24.6
 
   '@types/react-dom@19.3.0(@types/react@19.3.0)':
     dependencies:
@@ -1034,10 +1284,10 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@vitejs/plugin-react@6.1.2(vite@8.3.5(jiti@2.7.0))':
+  '@vitejs/plugin-react@6.1.2(vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.3.5(jiti@2.7.0)
+      vite: 8.3.5(@types/node@24.19.2)(jiti@2.7.0)
 
   adm-zip@0.6.1: {}
 
@@ -1255,9 +1505,11 @@ snapshots:
       '@typescript/typescript-win32-arm64': 7.0.2
       '@typescript/typescript-win32-x64': 7.0.2
 
+  undici-types@7.24.6: {}
+
   undici@7.29.1: {}
 
-  vite@8.3.5(jiti@2.7.0):
+  vite@8.3.5(@types/node@24.19.2)(jiti@2.7.0):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -1265,6 +1517,7 @@ snapshots:
       rolldown: 1.2.15
       tinyglobby: 0.2.17
     optionalDependencies:
+      '@types/node': 24.19.2
       fsevents: 2.3.3
       jiti: 2.7.0
 
