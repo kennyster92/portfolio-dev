@@ -68,6 +68,22 @@ export const projects: ProjectManifest[] = [
     status: "wip",
     remote: { name: "admin_auth", entry: remoteEntry("admin-auth", 5179) },
   },
+  {
+    id: "kafka-stream",
+    title: "Kafka Event Stream",
+    summary: "Live event pipeline on Apache Kafka: producers, consumer groups, partitions and lag, streamed to the browser.",
+    tags: ["Kafka", "Event streaming", "WebSockets", "Backend"],
+    status: "wip",
+    remote: { name: "kafka_stream", entry: remoteEntry("kafka-stream", 5180) },
+  },
+  {
+    id: "spark-analytics",
+    title: "Spark Analytics",
+    summary: "Batch and streaming jobs on Apache Spark over a sample dataset, with job status, query plans and result charts.",
+    tags: ["Spark", "Big data", "Data engineering"],
+    status: "wip",
+    remote: { name: "spark_analytics", entry: remoteEntry("spark-analytics", 5181) },
+  },
 ];
 
 export function findProject(id: string | undefined) {

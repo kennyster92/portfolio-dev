@@ -60,3 +60,15 @@ services:
     build:
       <<: *remote-build
       args: { APP: projects/admin-auth, NGINX_CONF: remote.conf }
+
+  mfe-kafka-stream:
+    <<: *remote
+    build:
+      <<: *remote-build
+      args: { APP: projects/kafka-stream, NGINX_CONF: remote.conf }
+
+  mfe-spark-analytics:
+    <<: *remote
+    build:
+      <<: *remote-build
+      args: { APP: projects/spark-analytics, NGINX_CONF: remote.conf }
